@@ -1,3 +1,5 @@
+import React from 'react';
+
 const ToggleThemeButton = ({ darkMode, setDarkMode }) => {
     return (
         <button
