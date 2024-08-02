@@ -3,7 +3,8 @@ import { render, fireEvent } from '@testing-library/react';
 import TodoForm from '../components/TodoForm';
 
 test('renders TodoForm component', () => {
-  const { getByPlaceholderText, getByText } = render(<TodoForm />);
+  const handleClick = jest.fn();
+  const { getByPlaceholderText, getByText } = render(<TodoForm handleClick={handleClick} />);
 
   const inputElement = getByPlaceholderText('Add todo');
   fireEvent.change(inputElement, { target: { value: 'Test Todo' } });
@@ -12,4 +13,5 @@ test('renders TodoForm component', () => {
   fireEvent.click(buttonElement);
 
   expect(inputElement.value).toBe('');
+  expect(handleClick).toHaveBeenCalledWith('Test Todo');
 });

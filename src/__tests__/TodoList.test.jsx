@@ -1,5 +1,7 @@
+// src/__tests__/TodoList.test.jsx
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import TodoList from '../components/TodoList';
 
 const mockTodos = [
@@ -8,7 +10,20 @@ const mockTodos = [
 ];
 
 test('renders TodoList component', () => {
-  const { getByText } = render(<TodoList todos={mockTodos} />);
+  const handleComplete = jest.fn();
+  const handleDelete = jest.fn();
+  const { getByText, getAllByText } = render(
+    <TodoList todos={mockTodos} handleComplete={handleComplete} handleDelete={handleDelete} />
+  );
+
   expect(getByText('Test Todo 1')).toBeInTheDocument();
   expect(getByText('Test Todo 2')).toBeInTheDocument();
+
+  const completeButton = getByText('Complete');
+  fireEvent.click(completeButton);
+  expect(handleComplete).toHaveBeenCalledWith(1);
+
+  const deleteButtons = getAllByText('Delete');
+  fireEvent.click(deleteButtons[0]);
+  expect(handleDelete).toHaveBeenCalledWith(1);
 });
